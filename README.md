@@ -5,7 +5,7 @@ This repository provides a set of PHP modules designed to work together as a com
 
 ### Naming Conventions ###
 
-Classes are subdivided by repository / module / database, each of which are represented by a single character in the class prefix. All prefixes in this repository begin with "F", referring to the domain "fdacq". The second letter refers to one of the modules in the repository, and the third represents the particular dataset within the module.
+Classes are subdivided by `repository / module / database`, each of which are represented by a single character in the class prefix. All prefixes in this repository begin with "F", referring to the domain "fdacq". The second letter refers to one of the modules in the repository, and the third represents the particular dataset within the module.
 
 ### Security ID ###
 
@@ -13,4 +13,4 @@ Whereas security symbols are designed to be a unique set of characters, I have i
 
 ### Constraints ###
 
-The system only currently collects data for Stocks and ETFs, though I am working on adding Currencies, Spot Commodities and Bitcoin. No plans are yet in the works for Futures or Options, Warrants or Mutual Funds.
+The system only currently collects data for Stocks and ETFs, though I am working on adding Currencies, Spot Commodities and Bitcoin. No plans are yet in the works for Futures, Options, Warrants or Mutual Funds.
