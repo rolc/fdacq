@@ -29,7 +29,7 @@ abstract class SQLayerTable
     }
 
     /** @method get record from key
-      * @param  *int* integer key
+      * @param  void
       * @return *arr* array of assocs (or false) **/
     public function allRecs()
     {
