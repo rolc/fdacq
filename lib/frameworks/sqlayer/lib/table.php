@@ -21,10 +21,8 @@ abstract class SQLayerTable
         $sql = 'SELECT * FROM "'.$this->tableName.'" WHERE "k" = '.$key.';';
 
         /** return the first record (or false) **/
-        if ($recs = $this->dbo->fetchRecs($sql)) {
-            foreach ($recs as $rec) {
-                return $rec;
-            }
+        if ($rec = $this->dbo->fetchRec($sql)) {
+            return $rec;
         } else {
             return false;
         }
@@ -176,8 +174,8 @@ abstract class SQLayerTable
 
     }
 
-    /** @method import from CSV
-      * @param  *str* path [*bool* hasHeaders (default is false)]
+    /** @method import from JSON
+      * @param  *str* path
       * @return void **/
     public function importFromJson($path)
     {
@@ -194,6 +192,9 @@ abstract class SQLayerTable
         
     }
 
+    /** @method export to JSON
+      * @param  *str* path
+      * @return void **/
     public function exportToJson($path)
     {
         $dir = dirname($path);
