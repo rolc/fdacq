@@ -31,16 +31,16 @@ class SQLayerCsv
         if (isset($args[0])) {
         
             if (is_array($args[0])) {
-		
-		        /** process array into string **/
-		        $this->rowsToFile($args[0]);
-		
-			} elseif (is_string($args[0])) {
-			
-			    /** process string into array **/
-			    $this->fileToRows($args[0]);
-			
-			}
+        
+                /** process array into string **/
+                $this->rowsToFile($args[0]);
+        
+            } elseif (is_string($args[0])) {
+            
+                /** process string into array **/
+                $this->fileToRows($args[0]);
+            
+            }
 
         }
         
@@ -53,7 +53,7 @@ class SQLayerCsv
     {
         /** encode escaped quotes so as to ignore during processing **/
         if ($eqp = strpos($line, '\\"')) {
-		    $line = str_replace('\\"', '[XQZ]', $this->file);
+            $line = str_replace('\\"', '[XQZ]', $this->file);
         }
 
         /** convert string into character array **/
@@ -110,11 +110,11 @@ class SQLayerCsv
             /** don't process empty lines **/
             if (strlen($line) > 0) {
 
-				if ($neq = strpos($line, '"')) {
-					$this->rows[] = self::processQuotedLine($line);
-				} else {
-					$this->rows[] = explode(',', $line);
-				}
+                if ($neq = strpos($line, '"')) {
+                    $this->rows[] = self::processQuotedLine($line);
+                } else {
+                    $this->rows[] = explode(',', $line);
+                }
 
             }
 
@@ -131,30 +131,30 @@ class SQLayerCsv
         $this->rows = $rows;
         $this->file = '';
 
-		foreach ($rows as $vals) {
-		
-			$line_array = array();
-		
-			foreach ($vals as $value) {
-			
-				// escape quotes
-				if ($anq = strpos($value, '"')) {
-					if ($eqp = strpos($value, '\\"')) {
-						// so we don't double-escape quotes
-						$value = str_replace('\\"', '[XQZ]', $value);
-					}
-					// bring in the rest
-					$value = str_replace('"', '[XQZ]', $value);
-					$value = str_replace('[XQZ]', '\\"', $value);
-				}
-				
-				// now escape any commas
-				if ($cmp = strpos($value, ',')) {
-					$line_array[] = '"'.$value.'"';
-				} else {
-					$line_array[] = $value;
-				}
-			}
+        foreach ($rows as $vals) {
+        
+            $line_array = array();
+        
+            foreach ($vals as $value) {
+            
+                // escape quotes
+                if ($anq = strpos($value, '"')) {
+                    if ($eqp = strpos($value, '\\"')) {
+                        // so we don't double-escape quotes
+                        $value = str_replace('\\"', '[XQZ]', $value);
+                    }
+                    // bring in the rest
+                    $value = str_replace('"', '[XQZ]', $value);
+                    $value = str_replace('[XQZ]', '\\"', $value);
+                }
+                
+                // now escape any commas
+                if ($cmp = strpos($value, ',')) {
+                    $line_array[] = '"'.$value.'"';
+                } else {
+                    $line_array[] = $value;
+                }
+            }
             
             $this->file .= implode(',',$line_array).PHP_EOL;
             
