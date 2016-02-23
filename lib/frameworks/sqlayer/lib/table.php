@@ -58,7 +58,7 @@ abstract class SQLayerTable
 
         if (count($values) == (count($this->columns) - 1)) {
             /** prepend unquoted null, comma and opening quote **/
-            $sql .= 'NULL, "'
+            $sql .= 'NULL, "';
         } elseif (count($values) == count($this->columns)) {
             /** prepend just the opening quote **/
             $sql .= '"';
