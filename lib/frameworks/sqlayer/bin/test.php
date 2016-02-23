@@ -1,8 +1,11 @@
 <?php
 
+// run "php <your/path/to>/fdacq/lib/frameworks/sqlayer/bin/test.php" to test on command line
+
 /** import the library **/
 require_once(dirname(__DIR__).DIRECTORY_SEPARATOR.'ini.php');
 
+/** EXAMPLE OF DBO CLASS IMPLEMENTED AS SINGLETON **/
 class TestDB extends SQLayerDbo
 {
 
@@ -30,6 +33,7 @@ class TestDB extends SQLayerDbo
 
 }
 
+/** EXAMPLE OF TABLE CLASS IMPLEMENTED AS SINGLETON **/
 class ExampleTable extends SQLayerTable
 {
 
@@ -56,20 +60,65 @@ class ExampleTable extends SQLayerTable
 
 }
 
+function test() {
 
-/** access table singleton **/
-$test = ExampleTable::tbl();
+	$start = microtime(true);
 
-/** create the table **/
-$test->createTable();
+	echo '--------------TEST SQLAYER---------------'.PHP_EOL;
 
-/** test explicit insertion with key **/
-$test->insertRec(array(1,'AA','Alcoa Inc'));
+	/** access table singleton **/
+	$test = ExampleTable::tbl();
 
-/** test keyless insert **/
-$insert_id = $test->insertRec(array('CAT','Caterpillar Inc'));
+	/** create the table **/
+	$test->createTable();
 
-echo 'Insert ID was '.$insert_id.PHP_EOL;
+	/** test explicit insertion with key **/
+	$test->insertRec(array(1,'AA','Alcoa Inc'));
 
-/** see what happened **/
-print_r($test->allRecs());
+	echo '--------------TEST INSERT---------------'.PHP_EOL;
+
+	/** test keyless insert **/
+	$insert_id = $test->insertRec(array('BA','Boeing Co'));
+	echo 'Insert ID was '.$insert_id.PHP_EOL;
+
+	/** test insert with commas **/
+	$test->insertRec(array(3,'CAT','Caterpillar, Inc'));
+
+	echo '--------------TEST ALLRECS---------------'.PHP_EOL;
+
+	/** print table records **/
+	print_r($test->allRecs());
+
+	echo '--------------TEST EXPORT---------------'.PHP_EOL;
+
+	$path = dirname(__DIR__).DIRECTORY_SEPARATOR.'var'.DIRECTORY_SEPARATOR.'csv'.DIRECTORY_SEPARATOR.$test->tableName().'.csv';
+
+	$test->exportToCsv($path,true);
+
+	echo 'File Contents: '.PHP_EOL.file_get_contents($path).PHP_EOL;
+
+	echo '------------TEST EMPTY TABLE------------'.PHP_EOL;
+
+	$test->emptyTable();
+
+	if ($recs = $test->allRecs()) {
+		echo 'Method emptyTable() Failed'.PHP_EOL;
+	} else {
+		echo 'Table emptied'.PHP_EOL;
+	}
+
+	echo '--------------TEST IMPORT---------------'.PHP_EOL;
+
+	$test->importFromCsv($path,true);
+
+	print_r($test->allRecs());
+
+	echo '--------------TEST COMPLETE---------------'.PHP_EOL;
+
+	$end = microtime(true);
+
+	echo 'RUNTIME '.($end - $start).' SECONDS'.PHP_EOL;
+
+}
+
+test();

@@ -101,4 +101,79 @@ abstract class SQLayerTable
 
     }
 
+    /** @method table name getter
+      * @param  void
+      * @return *str* table name **/
+    public function tableName()
+    {
+        return $this->tableName;
+    }
+
+    /** @method empty table
+      * @param  void
+      * @return *int* 0 (or false) **/
+    public function emptyTable()
+    {
+        $sql = 'DELETE FROM "'.$this->tableName.'";';
+        return $this->dbo->executeSQL($sql);
+    }
+
+    /** @method import from CSV
+      * @param  *str* path [*bool* hasHeaders (default is false)]
+      * @return void **/
+    public function importFromCsv($path,$headers = false)
+    {
+
+        $csv = new SQLayerCsv(file_get_contents($path));
+        
+        $rows = $csv->rows();
+
+        if ($headers == true) {
+            array_shift($rows);
+        }
+        
+        foreach ($rows as $row) {
+            $this->insertRec($row);
+        }
+        
+    }
+
+    /** @method export to CSV
+      * @param  *str* path [*bool* includeHeaders (default is false)]
+      * @return void **/
+    public function exportToCsv($path,$headers = false)
+    {
+
+        $dir = dirname($path);
+        
+        if (!file_exists($dir)) {
+            mkdir($dir, 0777, true);
+        }
+
+        $rows = array();
+
+        if ($headers == true) {
+        
+            $titles = array();
+        
+            foreach ($this->columns as $col) {
+                $titles[] = $col->title;
+            }
+            
+            $rows[] = $titles;
+
+        }
+
+        $recs = $this->allRecs();
+        
+        foreach ($recs as $rec) {
+            $rows[] = array_values($rec);
+        }
+        
+        $csv = new SQLayerCsv($rows);
+        
+        file_put_contents($path, $csv->file());
+
+    }
+
 }
