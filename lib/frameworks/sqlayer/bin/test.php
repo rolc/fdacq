@@ -113,6 +113,22 @@ function test() {
 
 	print_r($test->allRecs());
 
+	echo '------------TEST JSON EXPORT------------'.PHP_EOL;
+
+    $path = dirname(__DIR__).DIRECTORY_SEPARATOR.'var'.DIRECTORY_SEPARATOR.'json'.DIRECTORY_SEPARATOR.$test->tableName().'.json';
+	
+	$test->exportToJson($path);
+
+	echo 'File Contents: '.PHP_EOL.file_get_contents($path).PHP_EOL;
+	
+	echo '------------TEST JSON IMPORT------------'.PHP_EOL;
+	
+	$test->emptyTable();
+
+	$test->importFromJson($path);
+	
+	print_r($test->allRecs());
+
 	echo '--------------TEST COMPLETE---------------'.PHP_EOL;
 
 	$end = microtime(true);

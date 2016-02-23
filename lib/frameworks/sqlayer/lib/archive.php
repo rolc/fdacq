@@ -1,14 +1,11 @@
 <?php
 
 /***
-    NOTES:
-    
-    This class does not handle the inclusion or exclusion of column headers. You can
-    handle this by shifting the first element of the $rows property if neccessary.
+    NOTE:
     
     This class does not handle reading from or writing to a file path. You will need to
     use file_get_contents($path) if reading from a file or, if writing out to file, use
-    file_put_contents($data->file,$path).
+    file_put_contents($archive->file,$path).
 
 ***/
 

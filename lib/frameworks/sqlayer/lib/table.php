@@ -176,4 +176,44 @@ abstract class SQLayerTable
 
     }
 
+    /** @method import from CSV
+      * @param  *str* path [*bool* hasHeaders (default is false)]
+      * @return void **/
+    public function importFromJson($path)
+    {
+
+        $json = new SQLayerJson();
+        
+        $json->fileToRows(file_get_contents($path));
+        
+        $rows = $json->rows();
+
+        foreach ($rows as $row) {
+            $this->insertRec($row);
+        }
+        
+    }
+
+    public function exportToJson($path)
+    {
+        $dir = dirname($path);
+        
+        if (!file_exists($dir)) {
+            mkdir($dir, 0777, true);
+        }
+
+        $keys = array();
+        
+        foreach ($this->columns as $col) {
+            $keys[] = $col->varName;
+        }
+
+        $json = new SQLayerJson();
+        
+        $json->initWithKeysAndRows($keys,$this->allRecs());
+        
+        file_put_contents($path, $json->file().PHP_EOL);
+
+    }
+
 }
