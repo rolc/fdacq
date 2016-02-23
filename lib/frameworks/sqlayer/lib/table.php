@@ -97,7 +97,7 @@ abstract class SQLayerTable
         $sql .= ');';
         
         /** return 0 for success or false **/
-        return $this->dbo->exe($sql);
+        return $this->dbo->executeSQL($sql);
 
     }
 
