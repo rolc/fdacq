@@ -12,39 +12,8 @@
 
 ***/
 
-class SQLayerCsv
+class SQLayerCsv extends SQLayerArchive
 {
-
-    /** @property *str* file text **/
-    protected $file;
-    
-    /** @property *arr* array of row arrays **/
-    protected $rows;
-
-    /** @method constructor
-      * @param  *arr* or *str*
-      * @return void **/
-    public function __construct()
-    {
-        $args = func_get_args();
-        
-        if (isset($args[0])) {
-        
-            if (is_array($args[0])) {
-        
-                /** process array into string **/
-                $this->rowsToFile($args[0]);
-        
-            } elseif (is_string($args[0])) {
-            
-                /** process string into array **/
-                $this->fileToRows($args[0]);
-            
-            }
-
-        }
-        
-    }
 
     /** @method process quoted line
       * @param  *str* single line of comma separated values
@@ -159,22 +128,6 @@ class SQLayerCsv
             $this->file .= implode(',',$line_array).PHP_EOL;
             
         }
-    }
-
-    /** @method rows getter
-      * @param  void
-      * @return *arr* array of row arrays **/
-    public function rows()
-    {
-        return $this->rows;
-    }
-
-    /** @method file getter
-      * @param  void
-      * @return *str* file text **/
-    public function file()
-    {
-        return $this->file;
     }
 
 }
