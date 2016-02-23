@@ -80,6 +80,21 @@ abstract class SQLayerDbo
         }
     }
 
+    /** @method fetch a single record
+      * @param  *str* SQL Statement
+      * @return *arr* assoc (or false) **/
+    public function fetchRec($sql)
+    {
+        /** return the first record (or false) **/
+        if ($recs = $this->fetchRecs($sql)) {
+            foreach ($recs as $rec) {
+                return $rec;
+            }
+        } else {
+            return false;
+        }
+    }
+    
     /** @method executes an SQL Statement
       * @param  *str* SQL Statement
       * @return *int* affected rows (or false) **/
