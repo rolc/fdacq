@@ -57,9 +57,19 @@ class ExampleTable extends SQLayerTable
 }
 
 
-
+/** access table singleton **/
 $test = ExampleTable::tbl();
+
+/** create the table **/
 $test->createTable();
+
+/** test explicit insertion with key **/
 $test->insertRec(array(1,'AA','Alcoa Inc'));
-$test->insertRec(array('CAT','Caterpillar Inc'));
+
+/** test keyless insert **/
+$insert_id = $test->insertRec(array('CAT','Caterpillar Inc'));
+
+echo 'Insert ID was '.$insert_id.PHP_EOL;
+
+/** see what happened **/
 print_r($test->allRecs());
